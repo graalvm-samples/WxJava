@@ -27,6 +27,9 @@ public class WxCpMaJsCode2SessionResult implements Serializable {
   @SerializedName("corpid")
   private String corpId;
 
+  @SerializedName("open_userid")
+  private String openUserId;
+
   /**
    * From json wx cp ma js code 2 session result.
    *

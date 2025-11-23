@@ -130,7 +130,7 @@ public interface WxCpTpUserService {
    * appid 应用的appid，若请求包中不包含agentid则不返回appid。该appid在使用微信红包时会用到
    * @throws WxErrorException the wx error exception
    */
-  Map<String, String> userId2Openid(String userId, Integer agentId) throws WxErrorException;
+  Map<String, String> userId2Openid(String userId, Integer agentId, String authCorpId) throws WxErrorException;
 
   /**
    * <pre>
@@ -148,7 +148,7 @@ public interface WxCpTpUserService {
    * @return userid 该openid在企业微信对应的成员userid
    * @throws WxErrorException the wx error exception
    */
-  String openid2UserId(String openid) throws WxErrorException;
+  String openid2UserId(String openid, String authCorpId) throws WxErrorException;
 
   /**
    * <pre>
@@ -162,11 +162,11 @@ public interface WxCpTpUserService {
    * </pre>
    *
    * @param mobile 手机号码。长度为5~32个字节
-   * @param corpId – the corp id
+   * @param authCorpId – the corp id
    * @return userid mobile对应的成员userid
    * @throws WxErrorException .
    */
-  String getUserId(String mobile, String corpId) throws WxErrorException;
+  String getUserId(String mobile, String authCorpId) throws WxErrorException;
 
   /**
    * 获取外部联系人详情.
@@ -181,7 +181,7 @@ public interface WxCpTpUserService {
    * @return 联系人详情 external contact
    * @throws WxErrorException .
    */
-  WxCpUserExternalContactInfo getExternalContact(String userId) throws WxErrorException;
+  WxCpUserExternalContactInfo getExternalContact(String userId, String authCorpId) throws WxErrorException;
 
 
 }

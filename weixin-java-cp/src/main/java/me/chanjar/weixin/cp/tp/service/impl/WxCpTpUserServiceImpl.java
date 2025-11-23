@@ -153,8 +153,9 @@ public class WxCpTpUserServiceImpl implements WxCpTpUserService {
   }
 
   @Override
-  public Map<String, String> userId2Openid(String userId, Integer agentId) throws WxErrorException {
-    String url = mainService.getWxCpTpConfigStorage().getApiUrl(USER_CONVERT_TO_OPENID);
+  public Map<String, String> userId2Openid(String userId, Integer agentId, String authCorpId) throws WxErrorException {
+    String url = mainService.getWxCpTpConfigStorage().getApiUrl(USER_CONVERT_TO_OPENID)
+      + "?access_token=" + mainService.getWxCpTpConfigStorage().getAccessToken(authCorpId);
     JsonObject jsonObject = new JsonObject();
     jsonObject.addProperty("userid", userId);
     if (agentId != null) {
@@ -176,29 +177,31 @@ public class WxCpTpUserServiceImpl implements WxCpTpUserService {
   }
 
   @Override
-  public String openid2UserId(String openid) throws WxErrorException {
+  public String openid2UserId(String openid, String authCorpId) throws WxErrorException {
     JsonObject jsonObject = new JsonObject();
     jsonObject.addProperty("openid", openid);
-    String url = mainService.getWxCpTpConfigStorage().getApiUrl(USER_CONVERT_TO_USERID);
+    String url = mainService.getWxCpTpConfigStorage().getApiUrl(USER_CONVERT_TO_USERID)
+      + "?access_token=" + mainService.getWxCpTpConfigStorage().getAccessToken(authCorpId);
     String responseContent = this.mainService.post(url, jsonObject.toString());
     JsonObject tmpJsonElement = GsonParser.parse(responseContent);
     return tmpJsonElement.getAsJsonObject().get("userid").getAsString();
   }
 
   @Override
-  public String getUserId(String mobile, String corpId) throws WxErrorException {
+  public String getUserId(String mobile, String authCorpId) throws WxErrorException {
     JsonObject jsonObject = new JsonObject();
     jsonObject.addProperty("mobile", mobile);
     String url = mainService.getWxCpTpConfigStorage().getApiUrl(GET_USER_ID)
-    + "?access_token=" + mainService.getWxCpTpConfigStorage().getAccessToken(corpId);
+    + "?access_token=" + mainService.getWxCpTpConfigStorage().getAccessToken(authCorpId);
     String responseContent = this.mainService.post(url, jsonObject.toString());
     JsonObject tmpJsonElement = GsonParser.parse(responseContent);
     return tmpJsonElement.getAsJsonObject().get("userid").getAsString();
   }
 
   @Override
-  public WxCpUserExternalContactInfo getExternalContact(String userId) throws WxErrorException {
-    String url = mainService.getWxCpTpConfigStorage().getApiUrl(GET_EXTERNAL_CONTACT + userId);
+  public WxCpUserExternalContactInfo getExternalContact(String userId, String authCorpId) throws WxErrorException {
+    String url = mainService.getWxCpTpConfigStorage().getApiUrl(GET_EXTERNAL_CONTACT + userId)
+      + "&access_token=" + mainService.getWxCpTpConfigStorage().getAccessToken(authCorpId);
     String responseContent = this.mainService.get(url, null);
     return WxCpUserExternalContactInfo.fromJson(responseContent);
   }
